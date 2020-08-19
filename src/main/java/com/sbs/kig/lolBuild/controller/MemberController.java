@@ -2,6 +2,7 @@ package com.sbs.kig.lolBuild.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,31 @@ public class MemberController {
 		}
 
 		model.addAttribute("redirectUri", redirectUri);
+		return "common/redirect";
+	}
+	
+	@RequestMapping("/usr/member/findLoginId")
+	public String showFindLoginId() {
+		return "member/findAccount";
+	}
+	
+	@RequestMapping("/usr/member/doFindLoginId") 
+	public String doFindLoginId(HttpServletRequest req, Model model, String redirectUri) {
+		String name = Util.getString(req, "name");
+		String email = Util.getString(req, "email");
+
+		Member member = memberService.getMemberByNameAndEmail(name, email);
+		model.addAttribute("redirectUri", redirectUri);
+		
+		if (member == null) {
+			req.setAttribute("alertMsg", "일치하는 회원이 없습니다.");
+			req.setAttribute("historyBack", true);
+			return "common/redirect";
+		}
+
+		req.setAttribute("alertMsg", "일치하는 회원을 찾았습니다.\\n아이디 : " + member.getLoginId());
+		req.setAttribute("historyBack", true);
+		
 		return "common/redirect";
 	}
 }
