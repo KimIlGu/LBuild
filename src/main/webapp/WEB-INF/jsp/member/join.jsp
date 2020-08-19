@@ -5,6 +5,9 @@
 <c:set var="pageTitle" value="회원가입" />
 <%@ include file="../part/head.jspf"%>
 
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+
 <script>
 	var MemberJoinForm__submitDone = false;
 	function MemberJoinForm__submit(form) {
@@ -73,22 +76,27 @@
 			alert('휴대전화번호를 입력해주세요.');
 			return;
 		}
-		if (form.cellphoneNo.value.length < 8) {
+		if (form.cellphoneNo.value.length < 10) {
 			form.cellphoneNo.focus();
-			alert('휴대폰번호를 8자 이상 입력해주세요.');
+			alert('휴대폰번호를 10자 이상 입력해주세요.');
 			return;
 		}
 		if (isCellphoneNo(form.cellphoneNo.value)) {
 			form.cellphoneNo.focus();
 			alert('휴대전화번호를 정확히 입력해주세요.');
 		}
+		form.loginPwReal.value = sha256(form.loginPw.value);
+		form.loginPw.value = '';
+		form.loginPwConfirm.value = '';
 		form.submit();
 		MemberJoinForm__submitDone = true;
 	}
 </script>
+
 <form method="POST" class="table-box con form1" action="doJoin"
 	onsubmit="MemberJoinForm__submit(this); return false;">
-	<input type="hidden" name="redirectUrl" value="/usr/member/login">
+	<input type="hidden" name="redirectUri" value="/usr/member/login">
+	<input type="hidden" name="loginPwReal">
 
 	<table>
 		<colgroup>

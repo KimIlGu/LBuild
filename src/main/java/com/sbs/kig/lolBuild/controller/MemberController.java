@@ -27,6 +27,7 @@ public class MemberController {
 
 	@RequestMapping("/usr/member/doJoin")
 	public String doWrite(@RequestParam Map<String, Object> param, Model model) {
+		Util.changeMapKey(param, "loginPwReal", "loginPw");
 		ResultData checkLoginIdJoinableResultData = memberService
 				.checkLoginIdJoinable(Util.getAsStr(param.get("loginId")));
 
@@ -38,8 +39,8 @@ public class MemberController {
 
 		int newMemberId = memberService.join(param);
 
-		String redirectUrl = (String) param.get("redirectUrl");
-		model.addAttribute("redirectUrl", redirectUrl);
+		String redirectUri = (String) param.get("redirectUri");
+		model.addAttribute("redirectUri", redirectUri);
 
 		return "common/redirect";
 	}
@@ -50,17 +51,18 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/usr/member/doLogin")
-	public String doLogin(String loginId, String loginPw, String redirectUri, Model model, HttpSession session) {
-		String loginPwReal = loginPw;
+	public String doLogin(String loginId, String loginPwReal, String redirectUri, Model model, HttpSession session) {
+		
+		String loginPw = loginPwReal;
 		Member member = memberService.getMemberByLoginId(loginId);
-		System.out.println("Member : " + member);
+
 		if (member == null) {
 			model.addAttribute("historyBack", true);
 			model.addAttribute("alertMsg", "존재하지 않는 회원입니다.");
 			return "common/redirect";
 		}
 
-		if (member.getLoginPw().equals(loginPwReal) == false) {
+		if (member.getLoginPw().equals(loginPw) == false) {
 			model.addAttribute("historyBack", true);
 			model.addAttribute("alertMsg", "비밀번호가 일치하지 않습니다.");
 			return "common/redirect";
