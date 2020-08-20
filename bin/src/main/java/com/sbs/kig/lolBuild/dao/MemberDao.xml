@@ -11,7 +11,7 @@
 		loginId = #{loginId}
 	</select>
 
-	<insert id="join" useGeneratedKeys="true" keyProperty="id" >
+	<insert id="join" useGeneratedKeys="true" keyProperty="id">
 		INSERT
 		INTO member
 		SET regDate = NOW(),
@@ -20,7 +20,8 @@
 		loginId = #{loginId},
 		loginPw = #{loginPw},
 		`name` = #{name},
-		nickname = #{nickname},
+		nickname =
+		#{nickname},
 		email = #{email},
 		cellphoneNo = #{cellphoneNo}
 	</insert>
@@ -34,7 +35,7 @@
 	<select id="getMemberByLoginId" resultType="Member">
 		SELECT *
 		FROM member
-		WHERE id = #{id}
+		WHERE loginId = #{loginId}
 	</select>
 	
 	<select id="getMemberByNameAndEmail" resultType="Member">
@@ -43,28 +44,4 @@
 		WHERE name = #{name}
 		AND email = #{email}
 	</select>
-	
-	<update id="modify">
-		UPDATE member
-		<set>
-			updateDate = NOW(),
-			loginPw = #{loginPw},
-		</set>
-		WHERE id = #{loginedMemberId}
-	</update>
-	
-	<resultMap type="Member" id="member">
-		<id property="id" column="id" />
-		<id property="regDate" column="regDate" />
-		<id property="updateDate" column="updateDate" />
-		<id property="delDate" column="delDate" />
-		<id property="delStatus" column="delStatus" />
-		<id property="authStatus" column="authStatus" />
-		<id property="loginId" column="loginId" />
-		<id property="loginPw" column="loginPw" />
-		<id property="name" column="name" />
-		<id property="nickname" column="nickname" />
-		<id property="email" column="email" />
-		<id property="cellphoneNo" column="cellphoneNo" />
-	</resultMap>
 </mapper> 

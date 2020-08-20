@@ -1,6 +1,7 @@
 package com.sbs.kig.lolBuild.service;
 
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,8 @@ public class MemberService {
 	private MemberDao memberDao;
 	@Autowired
 	private MailService mailService;
+	@Autowired
+	private AttrService attrService;
 	@Value("${custom.siteMainUri}")
 	private String siteMainUri;
 	@Value("${custom.siteName}")
@@ -26,12 +29,12 @@ public class MemberService {
 		return memberDao.getMemberById(id);
 	}
 
-	public int join(Map<String, Object> param) {
+	public void join(Map<String, Object> param, String loginPw) {
 		memberDao.join(param);
+		int memberId = Util.getAsInt(param.get("id"));
+		attrService.setValue("member__" + memberId + "__extra__useTempPassword", loginPw);
 		
 		sendJoinCompleteMail((String) param.get("email"));
-
-		return Util.getAsInt(param.get("id"));
 	}
 	
 	private void sendJoinCompleteMail(String email) {
@@ -54,11 +57,31 @@ public class MemberService {
 		return new ResultData("F-1", "이미 사용중인 로그인 아이디 입니다.", "loginId", loginId);
 	}
 
-	public Member getMemberById(int loginId) {
-		return memberDao.getMemberByLoginId(loginId);
+	public Member getMemberById(int id) {
+		return memberDao.getMemberByLoginId(id);
 	}
 
 	public Member getMemberByNameAndEmail(String name, String email) {
 		return memberDao.getMemberByNameAndEmail(name, email);
+	}
+
+	public String getModifyPrivateAuthCode(int loginedMemberId) {
+		String authCode = UUID.randomUUID().toString();
+		attrService.setValue("member__" + loginedMemberId + "__extra__modifyPrivateAuthCode", authCode);
+
+		return authCode;
+	}
+
+	public boolean isValidModifyPrivateAuthCode(int loginedMemberId, String authCode) {
+		String authCodeOnDB = attrService.getValue("member__" + loginedMemberId + "__extra__modifyPrivateAuthCode");
+
+		return authCodeOnDB.equals(authCode);
+	}
+
+	public void modify(int loginedMemberId, String loginPw) {
+		memberDao.modify(loginedMemberId, loginPw);
+		
+		attrService.remove("member", loginedMemberId, "extra", "useTempPassword");
+		
 	}
 }

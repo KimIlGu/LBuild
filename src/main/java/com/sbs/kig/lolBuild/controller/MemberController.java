@@ -37,8 +37,10 @@ public class MemberController {
 			model.addAttribute("alertMsg", checkLoginIdJoinableResultData.getMsg());
 			return "common/redirect";
 		}
+		
+		String loginPw = (String) param.get("loginPw");
 
-		int newMemberId = memberService.join(param);
+		memberService.join(param, loginPw);
 
 		String redirectUri = (String) param.get("redirectUri");
 		model.addAttribute("redirectUri", redirectUri);
@@ -114,6 +116,69 @@ public class MemberController {
 
 		req.setAttribute("alertMsg", "일치하는 회원을 찾았습니다.\\n아이디 : " + member.getLoginId());
 		req.setAttribute("historyBack", true);
+		
+		return "common/redirect";
+	}
+	
+	@RequestMapping("/usr/member/passwordForPrivate")
+	public String showPasswordForPrivate() {
+		return "member/passwordForPrivate";
+	}
+	
+	@RequestMapping("/usr/member/doPasswordForPrivate") 
+	public String doDoPasswordForPrivate(HttpServletRequest req, Model model, String redirectUri) {
+		
+		String loginPw = req.getParameter("loginPwReal");
+
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
+		int loginedMemberId = loginedMember.getId();
+
+		if (loginedMember.getLoginPw().equals(loginPw)) {
+			String authCode = memberService.getModifyPrivateAuthCode(loginedMemberId);
+			
+			model.addAttribute("redirectUri", redirectUri + authCode);
+			
+			return "common/redirect";
+		}
+		
+		req.setAttribute("historyBack", true);
+		return "common/redirect";
+	}
+	
+	@RequestMapping("/usr/member/modifyPrivate")
+	public String showModifyPrivate(HttpServletRequest req, @RequestParam("authCode") String authCode) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+		System.out.println("authCode : " + authCode);
+		
+		if (memberService.isValidModifyPrivateAuthCode(loginedMemberId, authCode) == false) {
+			req.setAttribute("alertMsg", "비밀번호를 다시 체크해주세요.");
+			req.setAttribute("historyBack", true);
+			
+			return "common/redirect";
+		}
+		return "member/modifyPrivate";
+	}
+	
+	@RequestMapping("/usr/member/doModifyPrivate") 
+	public String doModifyPrivate(HttpServletRequest req, Model model, String redirectUri) {
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+		String authCode = req.getParameter("authCode");
+
+		if (memberService.isValidModifyPrivateAuthCode(loginedMemberId, authCode) == false) {
+			req.setAttribute("alertMsg", "비밀번호를 다시 체크해주세요.");
+			req.setAttribute("historyBack", true);
+			
+			return "common/redirect";
+		}
+
+		String loginPw = req.getParameter("loginPwReal");
+
+		memberService.modify(loginedMemberId, loginPw);
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
+		loginedMember.setLoginPw(loginPw);
+		
+		req.setAttribute("alertMsg", "개인정보가 수정되었습니다.");
+		model.addAttribute("redirectUri", redirectUri);
 		
 		return "common/redirect";
 	}
