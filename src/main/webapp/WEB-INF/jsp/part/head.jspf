@@ -77,5 +77,7 @@ var param = ${paramJson};
 				<c:if test="${isLogined}">
 					<a class="btn btn-info" href="/usr/member/doLogout">로그아웃</a>
 				</c:if>
+				
+				<a class="btn btn-primary" href="/usr/home/main">홈</a>
 		</div>
 		<h1 class="page-title-box con">${pageTitle}</h1>

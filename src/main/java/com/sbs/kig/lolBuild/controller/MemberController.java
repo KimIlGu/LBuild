@@ -95,31 +95,6 @@ public class MemberController {
 		return "common/redirect";
 	}
 	
-	@RequestMapping("/usr/member/findLoginId")
-	public String showFindLoginId() {
-		return "member/findAccount";
-	}
-	
-	@RequestMapping("/usr/member/doFindLoginId") 
-	public String doFindLoginId(HttpServletRequest req, Model model, String redirectUri) {
-		String name = Util.getString(req, "name");
-		String email = Util.getString(req, "email");
-
-		Member member = memberService.getMemberByNameAndEmail(name, email);
-		model.addAttribute("redirectUri", redirectUri);
-		
-		if (member == null) {
-			req.setAttribute("alertMsg", "일치하는 회원이 없습니다.");
-			req.setAttribute("historyBack", true);
-			return "common/redirect";
-		}
-
-		req.setAttribute("alertMsg", "일치하는 회원을 찾았습니다.\\n아이디 : " + member.getLoginId());
-		req.setAttribute("historyBack", true);
-		
-		return "common/redirect";
-	}
-	
 	@RequestMapping("/usr/member/passwordForPrivate")
 	public String showPasswordForPrivate() {
 		return "member/passwordForPrivate";
@@ -133,26 +108,25 @@ public class MemberController {
 		Member loginedMember = (Member) req.getAttribute("loginedMember");
 		int loginedMemberId = loginedMember.getId();
 
-		if (loginedMember.getLoginPw().equals(loginPw)) {
-			String authCode = memberService.getModifyPrivateAuthCode(loginedMemberId);
-			
-			model.addAttribute("redirectUri", redirectUri + authCode);
+		if (loginedMember.getLoginPw().equals(loginPw) == false) {
+			req.setAttribute("historyBack", true);
 			
 			return "common/redirect";
 		}
 		
-		req.setAttribute("historyBack", true);
+		String authCode = memberService.getModifyPrivateAuthCode(loginedMemberId);
+		model.addAttribute("redirectUri", redirectUri + authCode);
+		
 		return "common/redirect";
 	}
 	
 	@RequestMapping("/usr/member/modifyPrivate")
-	public String showModifyPrivate(HttpServletRequest req, @RequestParam("authCode") String authCode) {
+	public String showModifyPrivate(HttpServletRequest req, Model model, @RequestParam(value="authCode", required=false, defaultValue="0") String authCode) {
 		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
-		System.out.println("authCode : " + authCode);
 		
 		if (memberService.isValidModifyPrivateAuthCode(loginedMemberId, authCode) == false) {
 			req.setAttribute("alertMsg", "비밀번호를 다시 체크해주세요.");
-			req.setAttribute("historyBack", true);
+			model.addAttribute("redirectUri", "/usr/member/passwordForPrivate");
 			
 			return "common/redirect";
 		}
@@ -180,6 +154,57 @@ public class MemberController {
 		req.setAttribute("alertMsg", "개인정보가 수정되었습니다.");
 		model.addAttribute("redirectUri", redirectUri);
 		
+		return "common/redirect";
+	}
+	
+	@RequestMapping("/usr/member/findLoginId")
+	public String showFindLoginId() {
+		return "member/findLoginId";
+	}
+	
+	@RequestMapping("/usr/member/doFindLoginId") 
+	public String doFindLoginId(HttpServletRequest req, Model model, String redirectUri) {
+		String name = Util.getString(req, "name");
+		String email = Util.getString(req, "email");
+
+		Member member = memberService.getMemberByNameAndEmail(name, email);
+		model.addAttribute("redirectUri", redirectUri);
+		
+		if (member == null) {
+			req.setAttribute("alertMsg", "일치하는 회원이 없습니다.");
+			req.setAttribute("historyBack", true);
+			return "common/redirect";
+		}
+
+		req.setAttribute("alertMsg", "일치하는 회원을 찾았습니다.\\n아이디 : " + member.getLoginId());
+		req.setAttribute("historyBack", true);
+		
+		return "common/redirect";
+	}
+	
+	@RequestMapping("/usr/member/findLoginPw")
+	public String showFindLoginPw() {
+		return "member/findLoginPw";
+	}
+	
+	@RequestMapping("/usr/member/doFindLoginPw") 
+	public String doFindLoginPw(HttpServletRequest req, Model model, String redirectUri) {
+		String loginId = Util.getString(req, "loginId");
+		String email = Util.getString(req, "email");
+
+		Member member = memberService.getMemberByLoginId(loginId);
+		
+		if (member == null || member.getEmail().equals(email) == false) {
+			req.setAttribute("alertMsg", "일치하는 회원이 없습니다.");
+			req.setAttribute("historyBack", true);
+			return "common/redirect";
+		}
+
+		memberService.notifyTempLoginPw(member);
+		
+		req.setAttribute("alertMsg", "메일로 임시패스워드가 발송되었습니다.");
+		req.setAttribute("redirectUri", "../member/login");
+
 		return "common/redirect";
 	}
 }

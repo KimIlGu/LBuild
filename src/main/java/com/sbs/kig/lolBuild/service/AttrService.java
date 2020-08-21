@@ -9,6 +9,7 @@ import com.sbs.kig.lolBuild.dao.AttrDao;
 public class AttrService {
 	@Autowired
 	private AttrDao attrDao;
+	
 
 	public int setValue(String name, String value) {
 		String[] nameBits = name.split("__");
@@ -20,7 +21,7 @@ public class AttrService {
 		return setValue(relTypeCode, relId, typeCode, type2Code, value);
 	}
 
-	private int setValue(String relTypeCode, int relId, String typeCode, String type2Code, String value) {
+	public int setValue(String relTypeCode, int relId, String typeCode, String type2Code, String value) {
 		return attrDao.setValue(relTypeCode, relId, typeCode, type2Code, value);
 	}
 

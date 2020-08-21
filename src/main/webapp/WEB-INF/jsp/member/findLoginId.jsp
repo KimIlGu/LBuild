@@ -39,31 +39,41 @@
 	}
 </script>
 
-<h2 class="con">로그인 아이디 찾기</h2>
-<div class="find-loginId-form-box con">
-	<form action="doFindLoginId" method="POST" class="form1"
-		onsubmit="FindLoginIdForm__submit(this); return false;">
-		<input type="hidden" name="redirectUri" value="/usr/home/main">
-		
-		<div class="form-row">
-			<div class="label">이름</div>
-			<div class="input">
-				<input name="name" autofocus type="text" placeholder="이름을 입력해주세요." />
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="label">이메일</div>
-			<div class="input">
-				<input name="email" type="email" placeholder="이메일을 입력해주세요." />
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="label">찾기</div>
-			<div class="input">
-				<input type="submit" value="찾기" />
-			</div>
-		</div>
-	</form>
-</div>
-
+<form action="doFindLoginId" method="POST" class="table-box con form1"
+	onsubmit="FindLoginIdForm__submit(this); return false;">
+	<input type="hidden" name="redirectUri" value="/usr/home/main">
+	
+	<table>
+		<colgroup>
+			<col width="100">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th>이름</th>
+				<td>
+					<div class="form-control-box">
+						<input autofocus type="text" placeholder="이름을 입력해주세요." name="name"
+							maxlength="30" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>이메일</th>
+				<td>
+					<div class="form-control-box">
+						<input type="email" placeholder="이메일을 입력해주세요." name="email"
+							maxlength="30" />
+					</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<th>확인</th>
+				<td>
+					<button class="btn btn-primary" type="submit">확인</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
 <%@ include file="../part/foot.jspf"%> 

@@ -14,7 +14,7 @@
 </style>
 
 <script>
-	function submitLoginForm(form) {
+	function submitLoginForm__submit(form) {
 		form.loginPw.value = form.loginPw.value.trim();
 		if (form.loginPw.value.length == 0) {
 			alert('로그인 비번을 입력해주세요.');
@@ -27,25 +27,33 @@
 	}
 </script>
 
-<div class="password-form-box con">
-	<form action="doPasswordForPrivate" method="POST" class="password-form form1"
-		onsubmit="submitLoginForm(this); return false;">
-		<input type="hidden" name="loginPwReal" />
-		<input type="hidden" name="redirectUri" value="/usr/member/modifyPrivate?authCode=">
-		
-		<div class="form-row">
-			<div class="label">로그인 비번</div>
-			<div class="input">
-				<input name="loginPw" type="password" placeholder="로그인 비번을 입력해주세요." />
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="label">확인</div>
-			<div class="input">
-				<input type="submit" value="확인" /> <a href="../home/main">취소</a>
-			</div>
-		</div>
-	</form>
-</div>
-
+<form method="POST" class="table-box con form1" action="doPasswordForPrivate"
+	onsubmit="submitLoginForm__submit(this); return false;">
+	<input type="hidden" name="loginPwReal">
+	<input type="hidden" name="redirectUri" value="/usr/member/modifyPrivate?authCode="">
+	
+	<table>
+		<colgroup>
+			<col width="100">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th>로그인 비번</th>
+				<td>
+					<div class="form-control-box">
+						<input type="password" placeholder="로그인 비번을 입력해주세요." name="loginPw"
+							maxlength="30" />
+					</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<th>확인</th>
+				<td>
+					<button class="btn btn-primary" type="submit">확인</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
 <%@ include file="../part/foot.jspf"%>

@@ -51,23 +51,50 @@ ALTER TABLE `attr` ADD UNIQUE INDEX (`relTypeCode`, `relId`, `typeCode`, `type2C
 ## 특정 조건을 만족하는 회원 또는 게시물(기타 데이터)를 빠르게 찾기 위해서
 ALTER TABLE `attr` ADD INDEX (`relTypeCode`, `typeCode`, `type2Code`); 
 
-SELECT `value` FROM attr
-WHERE 1
-AND relTypeCode = "member"
-AND relId = 1
-AND typeCode = "extra"
-AND type2Code = "modifyPrivateAuthCode"
+CREATE TABLE article (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME,
+    updateDate DATETIME,
+    delDate DATETIME,
+    displayStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+	delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    memberId INT(10) UNSIGNED NOT NULL,
+    boardId INT(10) UNSIGNED NOT NULL,
+    title CHAR(30) NOT NULL,
+    `body` LONGTEXT NOT NULL 
+);
+
+CREATE TABLE `board` (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME,
+    updateDate DATETIME,
+    delDate DATETIME,
+	delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+    `code` CHAR(20) NOT NULL UNIQUE,
+	`name` CHAR(20) NOT NULL UNIQUE
+);
+
+INSERT INTO `board`
+SET regDate = NOW(),
+updateDAte = NOW(),
+`code` = 'free',
+`name` = '자유';
+
+INSERT INTO `board`
+SET regDate = NOW(),
+updateDAte = NOW(),
+`code` = 'notice',
+`name` = '공지사항';
+
 
 SELECT * FROM `member`
 SELECT * FROM `attr`
+SELECT * FROM `article`
+SELECT * FROM `board`
 
 TRUNCATE `member`
 TRUNCATE `attr`
+TRUNCATE `article`
+TRUNCATE `board`
 
-DELETE 
-FROM attr
-WHERE 1
-AND relTypeCode = 'member'
-AND relId = 1
-AND typeCode = 'extra'
-AND type2Code = 'useTempPassword';
+

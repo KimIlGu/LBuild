@@ -28,32 +28,44 @@
 	}
 </script>
 
-<div class="modify-private-form-box con">
-	<form action="doModifyPrivate" method="POST" class="form1"
-		onsubmit="ModifyPrivateForm__submit(this); return false;">
-		<input type="hidden" name="authCode" value="${param.authCode}" />
-		<input type="hidden" name="loginPwReal" />
-		<input type="hidden" name="redirectUri" value="/usr/home/main">
-		
-		<div class="form-row">
-			<div class="label">새 로그인 비번</div>
-			<div class="input">
-				<input name="loginPw" type="password" placeholder="새 로그인 비번을 입력해주세요." />
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="label">새 로그인 비번 확인</div>
-			<div class="input">
-				<input name="loginPwConfirm" type="password" placeholder="새 로그인 비번을 입력해주세요." />
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="label">전송</div>
-			<div class="input">
-				<input type="submit" value="전송" /> <a href="../home/main">취소</a>
-			</div>
-		</div>
-	</form>
-</div>
+<form action="doModifyPrivate" method="POST" class="table-box con form1"
+	onsubmit="ModifyPrivateForm__submit(this); return false;">
+	<input type="hidden" name="authCode" value="${param.authCode}" />
+	<input type="hidden" name="loginPwReal" />
+	<input type="hidden" name="redirectUri" value="/usr/home/main">
+	
+	<table>
+		<colgroup>
+			<col width="100">
+		</colgroup>
+		<tbody>
+			<tr>
+				<th>새 로그인 비번</th>
+				<td>
+					<div class="form-control-box">
+						<input type="password" placeholder="새 로그인 비번을 입력해주세요." name="loginPw"
+							maxlength="30" />
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>새 로그인 비번 확인</th>
+				<td>
+					<div class="form-control-box">
+						<input type="password" placeholder="새 로그인 비번을 입력해주세요." name="loginPwConfirm"
+							maxlength="30" />
+					</div>
+				</td>
+			</tr>
+			
+			<tr>
+				<th>확인</th>
+				<td>
+					<button class="btn btn-primary" type="submit">확인</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
 
 <%@ include file="../part/foot.jspf"%>

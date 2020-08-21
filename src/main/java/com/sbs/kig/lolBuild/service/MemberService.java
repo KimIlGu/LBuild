@@ -84,4 +84,17 @@ public class MemberService {
 		attrService.remove("member", loginedMemberId, "extra", "useTempPassword");
 		
 	}
+
+	public void notifyTempLoginPw(Member member) {
+		String to = member.getEmail();
+		String tempPasswordOrigin = Util.getTempPassword(6);
+		String tempPassword = Util.sha256(tempPasswordOrigin);
+		
+		modify(member.getId(), tempPassword);
+		attrService.setValue("member", member.getId(), "extra", "useTempPassword", "1");
+		
+		String title = String.format("[%s] 임시패스워드 발송", siteName);
+		String body = String.format("<div>임시 패스워드 : %s</div>\n", tempPasswordOrigin);
+		mailService.send(to, title, body);
+	}
 }
