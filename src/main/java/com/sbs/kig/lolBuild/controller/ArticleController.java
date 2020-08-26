@@ -136,7 +136,7 @@ public class ArticleController {
 	@RequestMapping("/usr/article/{boardCode}-doDelete")
 	public String doDelete(@PathVariable("boardCode") String boardCode, int id, Model model,
 			@RequestParam Map<String, Object> param, HttpServletRequest req) {
-		
+
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
 
@@ -152,7 +152,7 @@ public class ArticleController {
 		}
 
 		articleService.delete(id);
-		
+
 		String redirectUri = boardCode + "-list";
 		return "redirect:" + redirectUri;
 	}

@@ -26,8 +26,12 @@
 		<li><a class="btn btn-list" href="#">- 게시물 작성</a></li>
 		<li><a class="btn btn-list" href="#">- 게시물 수정</a></li>
 		<li><a class="btn btn-list" href="#">- 게시물 삭제</a></li>
-		<li><a class="btn btn-list" href="#">- 회원가입</a></li>
-		<li><a class="btn btn-list" href="#">- 회원가입</a></li>
+	</ul>
+	
+	<ul>댓글
+		<li><a class="btn btn-list" href="#">- 댓글 작성</a></li>
+		<li><a class="btn btn-list" href="#">- 댓글 수정</a></li>
+		<li><a class="btn btn-list" href="#">- 댓글 삭제</a></li>
 	</ul>
 </div>
 

@@ -22,15 +22,13 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <!-- 공통 CSS -->
-<!-- 공통(라이브러리) CSS -->
 <link rel="stylesheet" href="/resource/common.css" />
 <!-- 공통 JS -->
-<!-- 공통(라이브러리) JS -->
 <script src="/resource/common.js"></script>
 
-<!-- 공통 CSS -->
+<!-- 공통 App CSS -->
 <link rel="stylesheet" href="/resource/app.css" />
-<!-- 공통 JS -->
+<!-- 공통 App JS -->
 <script src="/resource/app.js"></script>
 
 <%="<script>"%>
@@ -53,6 +51,7 @@ var param = ${paramJson};
 				
 				<c:if test="${isLogined == false}">
 					<a class="btn btn-primary" href="/usr/member/login">로그인</a>
+					<a class="btn btn-primary" href="/usr/member/join">회원가입</a>
 				</c:if>
 				
 				<c:if test="${isLogined}">

@@ -73,7 +73,7 @@
 
 	<div class="btn-box margin-top-20">
 		<button class="btn btn-primary" type="submit">수정</button>
-		<a class="btn btn-info" href="${listUrl}">리스트</a>
+		<a class="btn btn-info" href="${listUrl}">목록</a>
 	</div>
 </form>
 
