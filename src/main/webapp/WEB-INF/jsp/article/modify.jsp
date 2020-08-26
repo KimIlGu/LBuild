@@ -1,22 +1,26 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:set var="pageTitle" value="${board.name} 게시물 상세내용" />
+<c:set var="pageTitle" value="${board.name} 게시물 수정" />
 <%@ include file="../part/head.jspf"%>
+<%@ include file="../part/toastuiEditor.jspf"%>
 
 <script>
+	var ArticleModifyForm__submitDone = false;
+
 	function ArticleModifyForm__submit(form) {
-		if (isNowLoading()) {
+		if (ArticleModifyForm__submitDone) {
 			alert('처리중입니다.');
 			return;
 		}
+		
 		form.title.value = form.title.value.trim();
 		if (form.title.value.length == 0) {
 			form.title.focus();
 			alert('제목을 입력해주세요.');
 			return;
 		}
+		
 		var bodyEditor = $(form).find('.toast-editor.input-body').data('data-toast-editor');
 		var body = bodyEditor.getMarkdown().trim();
 		if (body.length == 0) {
@@ -25,10 +29,13 @@
 			return;
 		}
 		form.body.value = body;
+		form.submit();
 	}
 </script>
-<form class="table-box table-box-vertical con form1" method="POST" action="${board.code}-doModify" onsubmit="ArticleModifyForm__submit(this); return false;">
-	<input type="hidden" name="body" />
+
+<form class="table-box table-box-vertical con form1" method="POST" action="${board.code}-doModify" 
+	  onsubmit="ArticleModifyForm__submit(this); return false;">
+	<input type="hidden" name="body"/>
 	<input type="hidden" name="redirectUri" value="/usr/article/${board.code}-detail?id=${article.id}" />
 	<input type="hidden" name="id" value="${article.id}" />
 	<table>
@@ -65,7 +72,7 @@
 	</table>
 
 	<div class="btn-box margin-top-20">
-		<button type="submit" class="btn btn-primary">수정</button>
+		<button class="btn btn-primary" type="submit">수정</button>
 		<a class="btn btn-info" href="${listUrl}">리스트</a>
 	</div>
 </form>

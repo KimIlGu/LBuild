@@ -51,6 +51,12 @@
 		boardId = #{boardId}
 	</insert>
 	
+	<update id="hitUp" parameterType="int">
+		UPDATE article
+		SET hit = hit + 1
+		WHERE id = #{id}
+	</update>
+	
 	<update id="modify">
 		UPDATE article
 		<set>
@@ -77,10 +83,15 @@
 		</association>
 	</resultMap>
 	
-	<update id="hitUp" parameterType="int">
+	<update id="delete">
 		UPDATE article
-		SET hit = hit + 1
+		<set>
+			delDate = NOW(),
+			displayStatus = 0,
+			delStatus = 1
+		</set>
 		WHERE id = #{id}
 	</update>
+	
 
 </mapper> 

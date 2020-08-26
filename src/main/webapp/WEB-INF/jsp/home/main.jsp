@@ -9,19 +9,25 @@
 <h2 class="con">기능 리스트</h1>
 
 <div class="con">
-	<ul>
-		<li><a class="btn btn-primary" href="../member/join">- 회원가입</a></li>
-		<li><a class="btn btn-primary" href="../member/login">- 로그인</a></li>
-		<li><a class="btn btn-primary" href="/usr/member/doLogout">- 로그아웃</a></li>
-		<li><a class="btn btn-primary" href="#">- 가입시 감사메일 발송</a></li>
-		<li><a class="btn btn-primary" href="../member/passwordForPrivate">- 개인 계정 접속</a></li>
-		<li><a class="btn btn-primary" href="../member/modifyPrivate">- 개인 계정 접속 후 정보수정</a></li>
-		<li><a class="btn btn-primary" href="/usr/member/findLoginId">- 아이디 찾기</a></li>
-		<li><a class="btn btn-primary" href="/usr/member/findLoginPw">- 비밀번호 찾기</a></li>
-		<li><a class="btn btn-primary" href="../article/notice-write">- 공지사항 게시물 작성</a></li>
-		<li><a class="btn btn-primary" href="../article/notice-list">- 공지사항 게시물 리스트</a></li>
-		<li><a class="btn btn-primary" href="../article/free-write">- 자유 게시판 게시물 작성</a></li>
-		<li><a class="btn btn-primary" href="../article/free-list">- 자유 게시판 게시물 리스트</a></li>
+	<ul>회원  
+		<li><a class="btn btn-list" href="../member/join">- 회원가입</a></li>
+		<li><a class="btn btn-list" href="../member/login">- 로그인</a></li>
+		<li><a class="btn btn-list" href="/usr/member/doLogout">- 로그아웃</a></li>
+		<li><a class="btn btn-list" href="#">- 가입시 감사메일 발송</a></li>
+		<li><a class="btn btn-list" href="../member/passwordForPrivate">- 개인 계정 접속</a></li>
+		<li><a class="btn btn-list" href="../member/modifyPrivate">- 개인 계정 접속 후 정보수정</a></li>
+		<li><a class="btn btn-list" href="/usr/member/findLoginId">- 아이디 찾기</a></li>
+		<li><a class="btn btn-list" href="/usr/member/findLoginPw">- 비밀번호 찾기</a></li>
+	</ul>
+	
+	<ul>게시물
+		<li><a class="btn btn-list" href="../article/notice-list">- 공지사항 게시판</a></li>
+		<li><a class="btn btn-list" href="../article/free-list">- 자유 게시판 게시판</a></li>
+		<li><a class="btn btn-list" href="#">- 게시물 작성</a></li>
+		<li><a class="btn btn-list" href="#">- 게시물 수정</a></li>
+		<li><a class="btn btn-list" href="#">- 게시물 삭제</a></li>
+		<li><a class="btn btn-list" href="#">- 회원가입</a></li>
+		<li><a class="btn btn-list" href="#">- 회원가입</a></li>
 	</ul>
 </div>
 

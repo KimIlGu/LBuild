@@ -23,10 +23,10 @@ import com.sbs.kig.lolBuild.util.Util;
 public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
-	
+
 	@RequestMapping("/usr/article/{boardCode}-write")
-	public String showWrite(@PathVariable("boardCode") String boardCode, Model model, String listUrl) {
-		if ( listUrl == null ) {
+	public String showWrite(@PathVariable("boardCode") String boardCode, String listUrl, Model model) {
+		if (listUrl == null) {
 			listUrl = "./" + boardCode + "-list";
 		}
 		model.addAttribute("listUrl", listUrl);
@@ -35,50 +35,34 @@ public class ArticleController {
 
 		return "article/write";
 	}
-	
-	@RequestMapping("/usr/article/{boardCode}-doWrite")
-	public String doWrite(@RequestParam Map<String, Object> param, HttpServletRequest req, @PathVariable("boardCode") String boardCode, Model model) {
-		Board board = articleService.getBoardByCode(boardCode);
-		model.addAttribute("board", board);
 
-		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body");
-		int loginedMemberId = (int)req.getAttribute("loginedMemberId");
-		newParam.put("boardId", board.getId());
-		newParam.put("memberId", loginedMemberId);
-		int newArticleId = articleService.write(newParam);
-
-		String redirectUri = (String) param.get("redirectUri");
-		redirectUri = redirectUri.replace("#id", newArticleId + "");
-		
-		return "redirect:" + redirectUri;
-	}
-	
 	@RequestMapping("/usr/article/{boardCode}-list")
-	public String showList(Model model, @PathVariable("boardCode") String boardCode) {
+	public String showList(@PathVariable("boardCode") String boardCode, Model model) {
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
-		
+
 		List<Article> articles = articleService.getForPrintArticles();
 
 		model.addAttribute("articles", articles);
 
 		return "article/list";
 	}
-	
+
 	@RequestMapping("/usr/article/{boardCode}-detail")
-	public String showDetail(Model model, @PathVariable("boardCode") String boardCode, @RequestParam Map<String, Object> param, HttpServletRequest req, String listUrl) {
-		if ( listUrl == null ) {
+	public String showDetail(@PathVariable("boardCode") String boardCode, String listUrl, Model model,
+			@RequestParam Map<String, Object> param, HttpServletRequest req) {
+		if (listUrl == null) {
 			listUrl = "./" + boardCode + "-list";
 		}
 		Board board = articleService.getBoardByCode(boardCode);
-		
+
 		model.addAttribute("board", board);
-		
+
 		int id = Integer.parseInt((String) param.get("id"));
-		
+
 		articleService.hitUp(id);
 
-		Member loginedMember = (Member)req.getAttribute("loginedMember");
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
 
 		Article article = articleService.getForPrintArticleById(id, loginedMember);
 
@@ -87,46 +71,89 @@ public class ArticleController {
 
 		return "article/detail";
 	}
-	
+
 	@RequestMapping("/usr/article/{boardCode}-modify")
-	public String showModify(Model model, @RequestParam Map<String, Object> param, HttpServletRequest req, @PathVariable("boardCode") String boardCode, String listUrl) {
+	public String showModify(@PathVariable("boardCode") String boardCode, String listUrl, Model model,
+			@RequestParam Map<String, Object> param, HttpServletRequest req) {
 		model.addAttribute("listUrl", listUrl);
-		
+
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
-		
+
 		int id = Integer.parseInt((String) param.get("id"));
-		
-		Member loginedMember = (Member)req.getAttribute("loginedMember");
+
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
 		Article article = articleService.getForPrintArticleById(id, loginedMember);
 
 		model.addAttribute("article", article);
 
 		return "article/modify";
 	}
-	
-	@RequestMapping("/usr/article/{boardCode}-doModify")
-	public String doModify(@RequestParam Map<String, Object> param, HttpServletRequest req, int id, @PathVariable("boardCode") String boardCode, Model model) {
+
+	@RequestMapping("/usr/article/{boardCode}-doWrite")
+	public String doWrite(@PathVariable("boardCode") String boardCode, Model model,
+			@RequestParam Map<String, Object> param, HttpServletRequest req) {
 		Board board = articleService.getBoardByCode(boardCode);
 		model.addAttribute("board", board);
+
+		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body");
+		int loginedMemberId = (int) req.getAttribute("loginedMemberId");
+		newParam.put("boardId", board.getId());
+		newParam.put("memberId", loginedMemberId);
+		int newArticleId = articleService.write(newParam);
+
+		String redirectUri = (String) param.get("redirectUri");
+		redirectUri = redirectUri.replace("#id", newArticleId + "");
+
+		return "redirect:" + redirectUri;
+	}
+
+	@RequestMapping("/usr/article/{boardCode}-doModify")
+	public String doModify(@PathVariable("boardCode") String boardCode, int id, Model model,
+			@RequestParam Map<String, Object> param, HttpServletRequest req) {
+		Board board = articleService.getBoardByCode(boardCode);
+		model.addAttribute("board", board);
+
 		Map<String, Object> newParam = Util.getNewMapOf(param, "title", "body", "articleId", "id");
-		System.out.println(newParam.get("body"));
-		Member loginedMember = (Member)req.getAttribute("loginedMember");
-		
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
+
 		ResultData checkActorCanModifyResultData = articleService.checkActorCanModify(loginedMember, id);
-		
-		if (checkActorCanModifyResultData.isFail() ) {
+
+		if (checkActorCanModifyResultData.isFail()) {
 			model.addAttribute("historyBack", true);
 			model.addAttribute("msg", checkActorCanModifyResultData.getMsg());
-			
+
 			return "common/redirect";
 		}
-		
+
 		articleService.modify(newParam);
-		
+
 		String redirectUri = (String) param.get("redirectUri");
 
 		return "redirect:" + redirectUri;
 	}
 
+	@RequestMapping("/usr/article/{boardCode}-doDelete")
+	public String doDelete(@PathVariable("boardCode") String boardCode, int id, Model model,
+			@RequestParam Map<String, Object> param, HttpServletRequest req) {
+		
+		Board board = articleService.getBoardByCode(boardCode);
+		model.addAttribute("board", board);
+
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
+
+		ResultData checkActorCanDeleteResultData = articleService.checkActorCanModify(loginedMember, id);
+
+		if (checkActorCanDeleteResultData.isFail()) {
+			model.addAttribute("historyBack", true);
+			model.addAttribute("msg", checkActorCanDeleteResultData.getMsg());
+
+			return "common/redirect";
+		}
+
+		articleService.delete(id);
+		
+		String redirectUri = boardCode + "-list";
+		return "redirect:" + redirectUri;
+	}
 }

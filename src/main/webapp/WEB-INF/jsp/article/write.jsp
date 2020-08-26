@@ -13,9 +13,8 @@
 			alert('처리중입니다.');
 			return;
 		}
-		
+
 		form.title.value = form.title.value.trim();
-		
 		if (form.title.value.length == 0) {
 			form.title.focus();
 			alert('제목을 입력해주세요.');
@@ -30,16 +29,14 @@
 			return;
 		}
 		form.body.value = body;
-
 		form.submit();
 	}
 </script>
 
-<form method="POST" class="table-box table-box-vertical con form1" action="${board.code}-doWrite"
-	onsubmit="ArticleWriteForm__submit(this); return false;">
-	<input type="hidden" name="body" />
+<form class="table-box table-box-vertical con form1" method="POST" action="${board.code}-doWrite"
+	  onsubmit="ArticleWriteForm__submit(this); return false;">
+	<input type="hidden" name="body"/>
 	<input type="hidden" name="redirectUri" value="/usr/article/${board.code}-detail?id=#id">
-
 	<table>
 		<colgroup>
 			<col class="table-first-col">
@@ -50,7 +47,7 @@
 				<th>제목</th>
 				<td>
 					<div class="form-control-box">
-						<input type="text" placeholder="제목을 입력해주세요." name="title" maxlength="100" />
+						<input type="text" name="title" maxlength="100" placeholder="제목을 입력해주세요."/>
 					</div>
 				</td>
 			</tr>

@@ -42,6 +42,10 @@ public class ArticleService {
 
 		return id;
 	}
+	
+	public void hitUp(int id) {
+		articleDao.hitUp(id);
+	}
 
 	private void updateForPrintInfo(Member actor, Article article) {
 		Util.putExtraVal(article, "actorCanDelete", actorCanDelete(actor, article));
@@ -76,7 +80,7 @@ public class ArticleService {
 		articleDao.modify(param);
 	}
 
-	public void hitUp(int id) {
-		articleDao.hitUp(id);
+	public void delete(int id) {
+		articleDao.delete(id);
 	}
 }
