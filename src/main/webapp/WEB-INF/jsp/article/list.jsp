@@ -27,7 +27,9 @@
 			<c:forEach items="${articles}" var="article">
 				<c:if test="${article.boardId == board.id}">
 					<tr>
-						<td>${article.id}</td>
+						<td>
+							<a href="${article.getDetailLink(board.code)}">${article.id}</a>
+						</td>
 						<td>${article.regDate}</td>
 						<td>
 							<a href="${article.getDetailLink(board.code)}">${article.title}</a>

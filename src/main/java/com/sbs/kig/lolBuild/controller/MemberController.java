@@ -57,6 +57,7 @@ public class MemberController {
 	public String doLogin(String loginId, String loginPwReal, String redirectUri, Model model, HttpSession session) {
 		
 		String loginPw = loginPwReal;
+		System.out.println("loginPw : " + loginPw);
 		Member member = memberService.getMemberByLoginId(loginId);
 
 		if (member == null) {
@@ -146,7 +147,7 @@ public class MemberController {
 		}
 
 		String loginPw = req.getParameter("loginPwReal");
-
+		
 		memberService.modify(loginedMemberId, loginPw);
 		Member loginedMember = (Member) req.getAttribute("loginedMember");
 		loginedMember.setLoginPw(loginPw);

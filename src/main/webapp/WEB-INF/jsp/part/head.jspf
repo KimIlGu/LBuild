@@ -34,50 +34,29 @@
 <script src="/resource/app.js"></script>
 
 <%="<script>"%>
-var param = ${paramJson};
+var activeProfile = '${activeProfile}';
 <%="</script>"%>
 
-<c:forEach var="pageParameter" items="${param}">
-	<script>
-		param["${pageParameter.key}"] = "${pageParameter.value}";
-	</script>
-</c:forEach>
-
-<script>
-	if (!param.jsAction) {
-		param.jsAction = '';
-	}
-
-	var jsActions = param.jsAction.split(',');
-
-	for ( var key in jsActions) {
-		var jsActionFuncName = jsActions[key];
-
-		$(function() {
-			setTimeout(function() {
-				if (window[jsActionFuncName]) {
-					window[jsActionFuncName]();
-				} else {
-					console.error("jsAction으로 요청받은, " + jsActionFuncName
-							+ " 함수는 존재하지 않아서 실행하지 못했습니다.");
-				}
-			}, 100);
-		});
-	}
-</script>
+<%="<script>"%>
+var param = ${paramJson};
+<%="</script>"%>
 
 </head>
 <body>
 	<div class="outer-box">
 		<div class="top-bar con">
+				<a class="btn btn-primary" href="/usr/home/main">홈</a>
+				
 				<c:if test="${isLogined}">
 					${loginedMember.nickname}님 환영합니다.
 				</c:if>
 				
-				<c:if test="${isLogined}">
-					<a class="btn btn-info" href="/usr/member/doLogout">로그아웃</a>
+				<c:if test="${isLogined == false}">
+					<a class="btn btn-primary" href="/usr/member/login">로그인</a>
 				</c:if>
 				
-				<a class="btn btn-primary" href="/usr/home/main">홈</a>
+				<c:if test="${isLogined}">
+					<a class="btn btn-primary" href="/usr/member/doLogout">로그아웃</a>
+				</c:if>
 		</div>
 		<h1 class="page-title-box con">${pageTitle}</h1>

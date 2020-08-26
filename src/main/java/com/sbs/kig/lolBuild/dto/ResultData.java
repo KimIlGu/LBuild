@@ -29,22 +29,22 @@ public class ResultData {
 		return resultCode.startsWith("S-");
 	}
 
-	public ResultData(String resultCode, String msg, String bodyParam1Key, String bodyParam1Value) {
+	public ResultData(String resultCode, String msg, String bodyParam1Key, Object bodyParam1Value) {
 		this(resultCode, msg, bodyParam1Key, bodyParam1Value, null, null);
 	}
 
-	public ResultData(String resultCode, String msg, String bodyParam1Key, String bodyParam1Value, String bodyParam2Key,
+	public ResultData(String resultCode, String msg, String bodyParam1Key, Object bodyParam1Value, String bodyParam2Key,
 			String bodyParam2Value) {
 		this(resultCode, msg, bodyParam1Key, bodyParam1Value, bodyParam2Key, bodyParam2Value, null, null);
 	}
 
-	public ResultData(String resultCode, String msg, String bodyParam1Key, String bodyParam1Value, String bodyParam2Key,
+	public ResultData(String resultCode, String msg, String bodyParam1Key, Object bodyParam1Value, String bodyParam2Key,
 			String bodyParam2Value, String bodyParam3Key, String bodyParam3Value) {
 		this(resultCode, msg, bodyParam1Key, bodyParam1Value, bodyParam2Key, bodyParam2Value, bodyParam3Key,
 				bodyParam3Value, null, null);
 	}
 
-	public ResultData(String resultCode, String msg, String bodyParam1Key, String bodyParam1Value, String bodyParam2Key,
+	public ResultData(String resultCode, String msg, String bodyParam1Key, Object bodyParam1Value, String bodyParam2Key,
 			String bodyParam2Value, String bodyParam3Key, String bodyParam3Value, String bodyParam4Key,
 			String bodyParam4Value) {
 		this(resultCode, msg);

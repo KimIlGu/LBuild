@@ -197,14 +197,85 @@ html>head+body:nth-child(2) .height-300 {
 	background-color: #17a2b8;
 }
 
+.btn-log {
+	background-color: #2ACFFE;
+}
+
 .btn-danger {
 	background-color: #dc3540;
 }
 
 .btn-warning {
-	background-color: #ffc10;
+	background-color: #D4770B;
 }
 
 .btn+.btn {
 	margin-left: 10px;
+}
+
+.btn-inline-box {
+    display: flex;
+}
+
+.btn-inline-box>.btn {
+    display: block;
+    flex-grow: 1;
+    border-radius: 4px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.badge {
+    background-color: #3D94F6;
+    color: #FFFFFF;
+    padding: 0 7px;
+    border-radius: 10px;
+}
+
+.badge-success {
+    background-color: #28a745;
+}
+
+.badge-info {
+    background-color: #17a2b8;
+}
+
+.badge-danger {
+    background-color: #dc3540;
+}
+
+.badge-warning {
+    background-color: #ffc10;
+}
+
+.te-ww-container .tui-editor-contents {
+    padding-left: 10px !important;
+    padding-right: 10px;
+}
+
+.te-md-container .te-preview {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+.tui-md-code-block.CodeMirror-linebackground {
+    left: 10px !important;
+    right: 0 !important;
+}
+
+.tui-editor-defaultUI pre.CodeMirror-line {
+    padding-left: 10px !important;
+    padding-right: 0 !important;
+}
+
+.tui-editor-defaultUI pre {
+    word-break: break-all !important;
+    white-space: pre-wrap;
+}
+
+.tui-editor-contents pre {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
