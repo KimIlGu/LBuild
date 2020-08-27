@@ -23,4 +23,11 @@ public interface MemberDao {
 	void modify(int loginedMemberId, String loginPw);
 
 	void unsubscribe(int loginedMemberId);
+	
+	int getNicknameDupCount(String nickname);
+	
+	int getEmailDupCount(String email);
+
+	
+
 }

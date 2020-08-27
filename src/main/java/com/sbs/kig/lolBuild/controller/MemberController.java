@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.kig.lolBuild.dto.Member;
 import com.sbs.kig.lolBuild.dto.ResultData;
@@ -29,12 +30,27 @@ public class MemberController {
 	@RequestMapping("/usr/member/doJoin")
 	public String doWrite(@RequestParam Map<String, Object> param, Model model) {
 		Util.changeMapKey(param, "loginPwReal", "loginPw");
-		ResultData checkLoginIdJoinableResultData = memberService
-				.checkLoginIdJoinable(Util.getAsStr(param.get("loginId")));
+		ResultData checkLoginIdJoinableResultData = memberService.checkLoginIdJoinable(Util.getAsStr(param.get("loginId")));
 
 		if (checkLoginIdJoinableResultData.isFail()) {
 			model.addAttribute("historyBack", true);
 			model.addAttribute("alertMsg", checkLoginIdJoinableResultData.getMsg());
+			return "common/redirect";
+		}
+		
+		ResultData checkEmailJoinableResultData = memberService.checkEmailJoinable(Util.getAsStr(param.get("email")));
+
+		if (checkEmailJoinableResultData.isFail()) {
+			model.addAttribute("historyBack", true);
+			model.addAttribute("alertMsg", checkEmailJoinableResultData.getMsg());
+			return "common/redirect";
+		}
+
+		ResultData checkNicknameJoinableResultData = memberService.checkNicknameJoinable(Util.getAsStr(param.get("nickname")));
+
+		if (checkNicknameJoinableResultData.isFail()) {
+			model.addAttribute("historyBack", true);
+			model.addAttribute("alertMsg", checkNicknameJoinableResultData.getMsg());
 			return "common/redirect";
 		}
 		
@@ -46,6 +62,32 @@ public class MemberController {
 		model.addAttribute("redirectUri", redirectUri);
 
 		return "common/redirect";
+	}
+	
+	@RequestMapping("/usr/member/loginIdDup")
+	@ResponseBody
+	private ResultData loginIdDup(String loginId) {		
+		ResultData isJoinableLoginId = memberService.checkLoginIdJoinable(loginId);
+
+		return isJoinableLoginId;
+	}
+
+	@RequestMapping("/usr/member/nicknameDup")
+	@ResponseBody
+	private ResultData nicknameDup(String nickname) {
+
+		ResultData checkEmailJoinable = memberService.checkEmailJoinable(nickname);
+
+		return checkEmailJoinable;
+	}
+
+	@RequestMapping("/usr/member/emailDup")
+	@ResponseBody
+	private ResultData emailDup(String email) {
+
+		ResultData checkNicknameJoinable = memberService.checkNicknameJoinable(email);
+
+		return checkNicknameJoinable;
 	}
 
 	@RequestMapping("/usr/member/login")

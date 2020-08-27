@@ -95,6 +95,76 @@
 		form.submit();
 		MemberJoinForm__submitDone = true;
 	}
+
+	function JoinForm__checkLoginIdDup(input) {
+		var form = input.form;
+		form.loginId.value = form.loginId.value.trim();
+		if (form.loginId.value.length == 0) {
+			return;
+		}
+		$.get('loginIdDup', {
+			loginId : form.loginId.value
+		}, function(data) {
+			var $message = $(form.loginId).next();
+			if (data.resultCode.substr(0, 2) == 'S-') {
+				$message.empty().append(
+						'<div style="color:green;">' + data.msg + '</div>');
+				JoinForm__validLoginId = data.loginId;
+			} else {
+				$message.empty().append(
+						'<div style="color:red;">' + data.msg + '</div>');
+				JoinForm__validLoginId = '';
+			}
+		}, 'json');
+	}
+	function JoinForm__checkNicknameDup(input) {
+		var form = input.form;
+		form.nickname.value = form.nickname.value.trim();
+		if (form.nickname.value.length == 0) {
+			return;
+		}
+		$.get('nicknameDup', {
+			nickname : form.nickname.value
+		}, function(data) {
+			var $message = $(form.nickname).next();
+			if (data.resultCode.substr(0, 2) == 'S-') {
+				$message.empty().append(
+						'<div style="color:green;">' + data.msg + '</div>');
+				JoinForm__validNickname = data.nickname;
+			} else {
+				$message.empty().append(
+						'<div style="color:red;">' + data.msg + '</div>');
+				JoinForm__validNickname = '';
+			}
+		}, 'json');
+	}
+	function JoinForm__checkEmailDup(input) {
+		var form = input.form;
+		form.email.value = form.email.value.trim();
+		if (form.email.value.length == 0) {
+			return;
+		}
+		$.get('emailDup', {
+			email : form.email.value
+		}, function(data) {
+			var $message = $(form.email).next();
+			if (data.resultCode.substr(0, 2) == 'S-') {
+				$message.empty().append(
+						'<div style="color:green;">' + data.msg + '</div>');
+				JoinForm__validEmail = data.email;
+			} else {
+				$message.empty().append(
+						'<div style="color:red;">' + data.msg + '</div>');
+				JoinForm__validEmail = '';
+			}
+		}, 'json');
+	}
+	var JoinForm__checkLoginIdValid__debounce = _.debounce(
+			JoinForm__checkLoginIdDup, 500);
+	var JoinForm__checkEmailValid__debounce = _.debounce(
+			JoinForm__checkEmailDup, 500);
+	var JoinForm__checkNicknameValid__debounce = _.debounce(
+			JoinForm__checkNicknameDup, 500);
 </script>
 
 <form method="POST" class="table-box con form1" action="doJoin"
@@ -111,8 +181,10 @@
 				<th>로그인 아이디</th>
 				<td>
 					<div class="form-control-box">
-						<input type="text" placeholder="로그인 아이디 입력해주세요." name="loginId"
-							maxlength="30" />
+						<input onkeyup="JoinForm__checkLoginIdValid__debounce(this);"
+							name="loginId" type="text" placeholder="아이디를 입력해주세요."
+							autocomplete="off" />
+						<div class="message-msg"></div>
 					</div>
 				</td>
 			</tr>
@@ -147,8 +219,10 @@
 				<th>활동명</th>
 				<td>
 					<div class="form-control-box">
-						<input type="text" placeholder="활동명 입력해주세요." name="nickname"
-							maxlength="20" />
+						<input onkeyup="JoinForm__checkNicknameValid__debounce(this);"
+							name="nickname" type="text" placeholder="닉네임을 입력해주세요."
+							autocomplete="off" />
+						<div class="message-msg"></div>
 					</div>
 				</td>
 			</tr>
@@ -156,8 +230,10 @@
 				<th>이메일</th>
 				<td>
 					<div class="form-control-box">
-						<input type="email" placeholder="이메일 입력해주세요." name="email"
-							maxlength="50" />
+						<input onkeyup="JoinForm__checkEmailValid__debounce(this);"
+							name="email" type="text" placeholder="이메일을 입력해주세요."
+							autocomplete="off" />
+						<div class="message-msg"></div>
 					</div>
 				</td>
 			</tr>

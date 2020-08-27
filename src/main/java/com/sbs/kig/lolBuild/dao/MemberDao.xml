@@ -10,7 +10,23 @@
 		WHERE
 		loginId = #{loginId}	
 	</select>
-
+	
+	<select id="getNicknameDupCount" resultType="int">
+		SELECT COUNT(*) AS
+		cnt
+		FROM
+		member
+		WHERE nickname = #{nickname}
+	</select>
+	
+	<select id="getEmailDupCount" resultType="int">
+		SELECT COUNT(*) AS
+		cnt
+		FROM
+		member
+		WHERE email = #{email}
+	</select>
+	
 	<insert id="join" useGeneratedKeys="true" keyProperty="id" >
 		INSERT
 		INTO member
@@ -76,4 +92,6 @@
 		</set>
 		WHERE id = #{loginedMemberId}
 	</update>
+	
+	
 </mapper> 
