@@ -81,10 +81,14 @@
 			alert('휴대폰번호를 10자 이상 입력해주세요.');
 			return;
 		}
+		
+		/*
 		if (isCellphoneNo(form.cellphoneNo.value)) {
 			form.cellphoneNo.focus();
 			alert('휴대전화번호를 정확히 입력해주세요.');
 		}
+		*/
+		
 		form.loginPwReal.value = sha256(form.loginPw.value);
 		form.loginPw.value = '';
 		form.loginPwConfirm.value = '';

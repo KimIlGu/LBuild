@@ -8,7 +8,7 @@
 <%@ include file="../part/toastuiEditor.jspf"%>
 
 <!-- 공통 CSS -->
-<link rel="stylesheet" href="/resource/detail.css" />
+<link rel="stylesheet" href="/resource/article/detail/detail.css" />
 
 <div class="article-detail-box table-box table-box-vertical con">
 	<table>

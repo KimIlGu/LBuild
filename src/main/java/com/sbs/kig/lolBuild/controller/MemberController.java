@@ -55,9 +55,8 @@ public class MemberController {
 	
 	@RequestMapping("/usr/member/doLogin")
 	public String doLogin(String loginId, String loginPwReal, String redirectUri, Model model, HttpSession session) {
-		
 		String loginPw = loginPwReal;
-		System.out.println("loginPw : " + loginPw);
+
 		Member member = memberService.getMemberByLoginId(loginId);
 
 		if (member == null) {
@@ -69,6 +68,12 @@ public class MemberController {
 		if (member.getLoginPw().equals(loginPw) == false) {
 			model.addAttribute("historyBack", true);
 			model.addAttribute("alertMsg", "비밀번호가 일치하지 않습니다.");
+			return "common/redirect";
+		}
+		
+		if (member.isDelStatus() == true) {
+			model.addAttribute("historyBack", true);
+			model.addAttribute("alertMsg", "탈퇴한 회원의 아이디 입니다.");
 			return "common/redirect";
 		}
 
@@ -94,6 +99,11 @@ public class MemberController {
 
 		model.addAttribute("redirectUri", redirectUri);
 		return "common/redirect";
+	}
+	
+	@RequestMapping("/usr/member/account")
+	public String showAccount() {
+		return "member/account";
 	}
 	
 	@RequestMapping("/usr/member/passwordForPrivate")
@@ -206,6 +216,32 @@ public class MemberController {
 		req.setAttribute("alertMsg", "메일로 임시패스워드가 발송되었습니다.");
 		req.setAttribute("redirectUri", "../member/login");
 
+		return "common/redirect";
+	}
+	
+	@RequestMapping("/usr/member/unsubscribe")
+	public String showunsubscribe() {
+		return "member/unsubscribe";
+	}
+	
+	@RequestMapping("/usr/member/doUnsubscribe") 
+	public String dodoUnsubscribe(HttpServletRequest req, Model model, String redirectUri) {
+		
+		String loginPw = req.getParameter("loginPwReal");
+
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
+		int loginedMemberId = loginedMember.getId();
+
+		if (loginedMember.getLoginPw().equals(loginPw) == false) {
+			req.setAttribute("historyBack", true);
+			
+			return "common/redirect";
+		}
+		
+		memberService.unsubscribe(loginedMemberId);
+		req.setAttribute("alertMsg", "계정 삭제가 완료되었습니다.");
+		req.setAttribute("redirectUri", "../member/account");
+		
 		return "common/redirect";
 	}
 }

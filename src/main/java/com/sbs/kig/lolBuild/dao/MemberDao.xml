@@ -8,7 +8,7 @@
 		SELECT *
 		FROM member
 		WHERE
-		loginId = #{loginId}
+		loginId = #{loginId}	
 	</select>
 
 	<insert id="join" useGeneratedKeys="true" keyProperty="id" >
@@ -67,4 +67,13 @@
 		<id property="email" column="email" />
 		<id property="cellphoneNo" column="cellphoneNo" />
 	</resultMap>
+	
+	<update id="unsubscribe">
+		UPDATE member
+		<set>
+			delDate = NOW(),
+			delStatus = 1,
+		</set>
+		WHERE id = #{loginedMemberId}
+	</update>
 </mapper> 

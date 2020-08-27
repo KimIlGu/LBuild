@@ -97,4 +97,8 @@ public class MemberService {
 		String body = String.format("<div>임시 패스워드 : %s</div>\n", tempPasswordOrigin);
 		mailService.send(to, title, body);
 	}
+
+	public void unsubscribe(int loginedMemberId) {
+		memberDao.unsubscribe(loginedMemberId);
+	}
 }

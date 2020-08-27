@@ -21,4 +21,6 @@ public interface MemberDao {
 	Member getMemberByNameAndEmail(@Param("name") String name, @Param("email") String email);
 
 	void modify(int loginedMemberId, String loginPw);
+
+	void unsubscribe(int loginedMemberId);
 }

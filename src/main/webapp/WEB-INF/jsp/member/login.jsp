@@ -26,11 +26,12 @@
 			alert('로그인 아이디를 입력해주세요.');
 			return;
 		}
-		if (form.loginId.value.length < 4) {
+
+		/* if (form.loginId.value.length < 4) {
 			form.loginId.focus();
 			alert('로그인 아이디 4자 이상 입력해주세요.');
 			return;
-		}
+		} */
 		
 		form.loginPw.value = form.loginPw.value.trim();
 		if (form.loginPw.value.length == 0) {
@@ -38,11 +39,13 @@
 			alert('로그인 비밀번호를 입력해주세요.');
 			return;
 		}
-		if (form.loginPw.value.length < 5) {
+		
+		/* if (form.loginPw.value.length < 5) {
 			form.loginPw.focus();
 			alert('로그인 비밀번호를 5자 이상 입력해주세요.');
 			return;
-		}
+		} */
+		
 		form.loginPwReal.value = sha256(form.loginPw.value);
 		form.loginPw.value = '';
 		

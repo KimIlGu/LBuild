@@ -20,8 +20,7 @@
 		fileExtTypeCode = #{fileExtTypeCode},
 		fileExtType2Code = #{fileExtType2Code},
 		fileNo = #{fileNo},
-		`body` =
-		#{body}
+		`body` = #{body}
 	</insert>
 
 	<update id="update">

@@ -79,7 +79,7 @@ CREATE TABLE reply (
 );
 
 ## 특정 조건을 만족하는 회원 또는 게시물(기타 데이터)를 빠르게 찾기 위해서
-ALTER TABLE `attr` ADD INDEX (`relTypeCode`, `relId`); 
+ALTER TABLE `reply` ADD INDEX (`relTypeCode`, `relId`); 
 
 CREATE TABLE `file` (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,

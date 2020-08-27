@@ -14,10 +14,12 @@
 		<li><a class="btn btn-list" href="../member/login">- 로그인</a></li>
 		<li><a class="btn btn-list" href="/usr/member/doLogout">- 로그아웃</a></li>
 		<li><a class="btn btn-list" href="#">- 가입시 감사메일 발송</a></li>
-		<li><a class="btn btn-list" href="../member/passwordForPrivate">- 개인 계정 접속</a></li>
-		<li><a class="btn btn-list" href="../member/modifyPrivate">- 개인 계정 접속 후 정보수정</a></li>
+		<li><a class="btn btn-list" href="../member/account">- 개인 계정 접속</a></li>
+		<li><a class="btn btn-list" href="../member/passwordForPrivate">- 비밀번호 재설정 시 비밀번호 확인</a></li>
+		<li><a class="btn btn-list" href="../member/modifyPrivate">- 비밀번호 재설정</a></li>
 		<li><a class="btn btn-list" href="/usr/member/findLoginId">- 아이디 찾기</a></li>
 		<li><a class="btn btn-list" href="/usr/member/findLoginPw">- 비밀번호 찾기</a></li>
+		<li><a class="btn btn-list" href="../member/unsubscribe">- 회원 탈퇴</a></li>
 	</ul>
 	
 	<ul>게시물
